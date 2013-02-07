@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hubs Sample</title>
+</head>
+<body>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.signalR-1.0.0-rc2.min.js" type="text/javascript"></script>
+
+    <script src="/signalr/hubs" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.Echo;
+
+            chat.client.echoMessage = function (message) {
+                $('#messages').append('<li>' + message + '</li>');
+            };
+
+            $.connection.hub.start().done(function () {
+                $("#broadcast").click(function () {
+                    chat.server.send($('#msg').val());
+                });
+            });
+        });
+    </script>
+
+    <div>
+        <input type="text" id="msg" />
+        <input type="button" id="broadcast" value="broadcast" />
+
+        <ul id="messages">
+        </ul>
+    </div>
+</body>
+</html>
